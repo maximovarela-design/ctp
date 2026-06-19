@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Turnos - Lista</title>
+</head>
+<body class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📅 Agenda de Turnos</h1>
+        <a href="{% url 'crear_turno' %}" class="btn btn-primary">+ Agendar Nuevo Turno</a>
+    </div>
+
+    <div class="row">
+        {% for turno in turnos %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm {% if turno.estado == 'Terminado' %}bg-light text-muted{% else %}border-primary{% endif %}">
+                <div class="card-body">
+                    <h5 class="card-title">🚗 Vehículo: {{ turno.vehiculo }}</h5>
+                    <p class="card-text mb-1"><strong>Fecha:</strong> {{ turno.fecha }}</p>
+                    <p class="card-text mb-1"><strong>Hora:</strong> {{ turno.hora }} hs</p>
+                    <p class="card-text">
+                        <strong>Estado:</strong> 
+                        <span class="badge {% if turno.estado == 'Terminado' %}bg-secondary{% else %}bg-warning text-dark{% endif %}">
+                            {{ turno.estado }}
+                        </span>
+                    </p>
+                    <hr>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{% url 'editar_turno' turno.id %}" class="btn btn-sm btn-outline-warning">Editar</a>
+                        <a href="{% url 'eliminar_turno' turno.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">No hay turnos agendados para hoy.</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
